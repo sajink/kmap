@@ -266,6 +266,8 @@ function solve() {
   }
   dontcares = dontcares.filter(d => !minterms.includes(d));
 
+  saveEntry({ n, minterms: minterms.join(','), dontcares: dontcares.join(',') });
+
   const cfg = mapConfig(n);
   const vars = VAR_NAMES.slice(0, n);
   const fn = `F(${vars.join(',')}) = &sum;m(${minterms.join(',')})` +
@@ -369,6 +371,77 @@ function solve() {
   s3.appendChild(el('div', 'result', `F(${vars.join(',')}) = ${expr}`));
   out.appendChild(s3);
 }
+
+/* ---------------- history (localStorage) ---------------- */
+
+const HISTORY_KEY = 'kmap-history';
+const HISTORY_LIMIT = 10;
+
+function loadHistory() {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveEntry(entry) {
+  const history = loadHistory().filter(e =>
+    !(e.n === entry.n && e.minterms === entry.minterms && e.dontcares === entry.dontcares));
+  history.unshift(entry);
+  history.length = Math.min(history.length, HISTORY_LIMIT);
+  try {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch {
+    /* storage unavailable or full — skip persisting */
+  }
+  renderHistoryMenu();
+}
+
+function renderHistoryMenu() {
+  const menu = document.getElementById('historyMenu');
+  menu.innerHTML = '';
+  const history = loadHistory();
+  if (!history.length) {
+    menu.appendChild(el('div', 'empty', 'No solved problems yet.'));
+    return;
+  }
+  history.forEach(entry => {
+    const btn = el('button', 'hist-item');
+    btn.type = 'button';
+    btn.innerHTML = `<span class="fn">F(${VAR_NAMES.slice(0, entry.n).join(',')})</span> = &sum;m(${entry.minterms})` +
+      (entry.dontcares ? ` + d(${entry.dontcares})` : '');
+    btn.addEventListener('click', () => {
+      document.getElementById('vars').value = String(entry.n);
+      document.getElementById('minterms').value = entry.minterms;
+      document.getElementById('dontcares').value = entry.dontcares;
+      closeHistoryMenu();
+      solve();
+    });
+    menu.appendChild(btn);
+  });
+}
+
+function openHistoryMenu() {
+  document.getElementById('historyMenu').hidden = false;
+  document.getElementById('historyBtn').setAttribute('aria-expanded', 'true');
+}
+
+function closeHistoryMenu() {
+  document.getElementById('historyMenu').hidden = true;
+  document.getElementById('historyBtn').setAttribute('aria-expanded', 'false');
+}
+
+document.getElementById('historyBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  const menu = document.getElementById('historyMenu');
+  if (menu.hidden) openHistoryMenu(); else closeHistoryMenu();
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.menu')) closeHistoryMenu();
+});
+renderHistoryMenu();
 
 document.getElementById('form').addEventListener('submit', e => {
   e.preventDefault();

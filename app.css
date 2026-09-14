@@ -31,6 +31,87 @@ h1 {
   color: var(--muted);
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.menu {
+  position: relative;
+}
+
+.burger {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.burger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+}
+
+.burger:hover {
+  border-color: var(--accent);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 260px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+  z-index: 10;
+}
+
+.dropdown .empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 10px 12px;
+}
+
+.dropdown .hist-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text);
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  cursor: pointer;
+}
+
+.dropdown .hist-item:hover {
+  background: #0d1322;
+}
+
+.dropdown .hist-item .fn {
+  color: var(--accent);
+}
+
 .panel {
   display: flex;
   flex-wrap: wrap;

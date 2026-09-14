@@ -10,7 +10,16 @@
 
 <body>
   <header>
-    <h1>Karnaugh Map Solver</h1>
+    <div class="title-row">
+      <h1>Karnaugh Map Solver</h1>
+      <div class="menu">
+        <button type="button" id="historyBtn" class="burger" aria-haspopup="true" aria-expanded="false"
+          title="Recent problems">
+          <span></span><span></span><span></span>
+        </button>
+        <div id="historyMenu" class="dropdown" hidden></div>
+      </div>
+    </div>
     <p class="sub">Solves up to 4 variables and draws a separate matrix for every stage of the solution.</p>
   </header>
 
