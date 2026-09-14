@@ -10,6 +10,10 @@ A small, dependency-free web app for simplifying Boolean functions with Karnaugh
 - Finds prime implicants and selects a minimal cover.
 - Displays essential prime implicants and the final simplified expression.
 
+## Hosted Version
+
+[Live Demo](https://kaymap.netlify.app/)
+
 ## Run Locally
 
 No build step or package installation is required.
