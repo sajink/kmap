@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K-Map Solver — Step by Step</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Karnaugh Map Solver</h1>
+    <p class="sub">Solves up to 4 variables and draws a separate matrix for every stage of the solution.</p>
+  </header>
+
+  <form id="form" class="panel">
+    <div class="field">
+      <label for="vars"># of variables</label>
+      <select id="vars">
+        <option value="2">2 — F(A,B)</option>
+        <option value="3">3 — F(A,B,C)</option>
+        <option value="4" selected>4 — F(A,B,C,D)</option>
+      </select>
+    </div>
+
+    <div class="field grow">
+      <label for="minterms">results (minterms)</label>
+      <input id="minterms" type="text" value="1,2,5,7,8,15" placeholder="e.g. 1,2,5,7,8,15" />
+    </div>
+
+    <div class="field grow">
+      <label for="dontcares">don't cares <span class="opt">(optional)</span></label>
+      <input id="dontcares" type="text" placeholder="e.g. 3,11" />
+    </div>
+
+    <button type="submit" id="solve">Solve</button>
+  </form>
+
+  <p id="error" class="error" hidden></p>
+
+  <main id="output"></main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
